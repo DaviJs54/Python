@@ -1,7 +1,6 @@
 import time
 import os
 l = [" "] * 64
-k = 0
 p = []
 for x in range(8,0,-1):
     p.extend([f"a{x}",f"b{x}",f"c{x}",f"d{x}",f"e{x}",f"f{x}",f"g{x}",f"h{x}"])
@@ -15,6 +14,7 @@ l[2] = l[5] = "♗"
 l[3] , l[4] = "♕" , "♔"
 
 l[56] = l[63] = "♜"
+
 l[57] = l[62] = "♞"
 l[58] = l[61] = "♝"
 l[59] , l[60] = "♛" , "♚"
@@ -25,18 +25,20 @@ def t():
     i = 0.125
     for x in range(0,64,8):
         if x == 0:
-            print("   _______________________________")
-        print(8 if x == 0 else int(8-x/8) , "| " + l[x] + " | " + l[x+1] + " | " + l[x+2] + " | " + l[x+3] + " | " + l[x+4] + " | " + l[x+5] + " | " + l[x+6] + " | " + l[x+7] + " |" , 8 if x == 0 else int(8-x/8))
+            print(f"""   ┌───┬───┬───┬───┬───┬───┬───┬───┐""")
+        print(f"{8 if x == 0 else int(8-x/8)}  │   l[x]  |   l[x+1]   |   l[x+2]  |   l[x+3]    l[x+4]   l[x+5]  l[x+6]  l[x+7]  {8 if x == 0 else int(8-x/8)}")
         if x < 56:
-            print("  |---+---+---+---+---+---+---+---|")
+            print("   ├───┼───┼───┼───┼───┼───┼───┼───┤")
         if x == 56:
             print("   ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯")
     print("    a   b   c   d   e   f   g   h")
 while True:
     flag = 0
-    if "♚" not in l and "♔" not in l:
-        break
+    #if "♚" not in l and "♔" not in l:
+        #break
     for x in range(1,3):    
+        #if x == 2:
+            #l.reverse()
         if x == 1:    
             os.system('cls')
             t()
