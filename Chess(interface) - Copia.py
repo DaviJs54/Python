@@ -5,7 +5,7 @@ from tkinter import messagebox
 pygame.init()
 BRANCO = (255, 255, 255)
 VERDE = (0, 128, 0)
-pb = pygame.image.load("pb.png")
+pb = pygame.image.load("c:\Users\student\Desktop\pb.png")
 pp = pygame.image.load("pp.png")
 tb = pygame.image.load("tb.png")
 tp = pygame.image.load("tp.png")
