@@ -121,7 +121,7 @@ while True:
                                                 if peças[u-1][a] == " ":
                                                     pygame.draw.rect(janela , (128,128,128) , ((a * 60) + 20 , ((u-1) * 60)+20 , 20 , 20))
                                                 if u == 6:    
-                                                    if peças[u-2][a] == " ":
+                                                    if peças[u-2][a] == " " and peças[u-1][a] == " ":
                                                         pygame.draw.rect(janela , (128,128,128) , ((a * 60) + 20 , ((u-2) * 60)+20 , 20 , 20))
                                                 if peças[u-1][a-1] in [pp,bp,cp,kp,rp,tp]:
                                                     pygame.draw.rect(janela , (255,0,0) , (((a - 1) * 60), ((u-1) * 60) , 60 , 60))
@@ -162,43 +162,104 @@ while True:
                                                     except IndexError:
                                                         continue
                                         elif peças[u][a] == tb:
-                                            vc = 0
-                                            hd = 0
-                                            vb = 0
-                                            he = 0
-                                            try:
-                                                for i in range(8):
-                                                    while True:
-                                                        if peças[u-i][a] != " ":
-                                                            for n in range(i):
-                                                                pygame.draw.rect(janela , (128,128,128) , ((a * 60) + 20, (u - n) * 60 + 20 , 20 , 20))
-                                                                vc = 1
-                                                            if peças[u-i][a] in[pp,rp,kp,tp,bp,cp]:
-                                                                pygame.draw.rect(janela , (255,0,0) , (((a) * 60), ((u-i) * 60) , 60 , 60))
-                                                        elif i == 7:
-                                                            for n in range(8):
-                                                                pygame.draw.rect(janela , (128,128,128) , ((a * 60) + 20, (u - n) * 60 + 20 , 20 , 20))
-                                                    
-                                                    while True:
-                                                        if peças[u][a+i] != " ":
-                                                            for n in range(i):
-                                                                pygame.draw.rect(janela , (128,128,128) , (((a+n) * 60) + 20, ((u) * 60) + 20 , 20 , 20))
-                                                                hd = 1
-                                                            if peças[u][a+i] in[pp,rp,kp,tp,bp,cp]:
-                                                                pygame.draw.rect(janela , (255,0,0) , (((a+i) * 60), ((u) * 60) , 60 , 60))    
-                                                        elif i == 7:
-                                                            for n in range(8):
-                                                                pygame.draw.rect(janela , (128,128,128) , (((a+n) * 60) + 20, ((u) * 60) + 20 , 20 , 20))
-                                            except IndexError:
-                                                continue    
-
+                                            v = h = 0 
+                                            for o in[1,-1]:
+                                                v = h = 0 
+                                                for i in range(1,8):
+                                                    try:
+                                                        if v == 0:    
+                                                            if peças[u-i*o][a] in[pp,rp,kp,tp,bp,cp]:
+                                                                pygame.draw.rect(janela , (255,0,0) , (((a) * 60), ((u - i*o) * 60) , 60 , 60))
+                                                                v = 1
+                                                            elif peças[u-i*o][a] == " ":
+                                                                pygame.draw.rect(janela , (128,128,128) , (((a) * 60) + 20, ((u - i*o) * 60) + 20 , 20 , 20))
+                                                            else:
+                                                                v = 1
+                                                        if h == 0:
+                                                            if peças[u][a+i*o] in[pp,rp,kp,tp,bp,cp]:
+                                                                pygame.draw.rect(janela , (255,0,0) , (((a + i*o) * 60), ((u) * 60) , 60 , 60))
+                                                                h = 1
+                                                            elif peças[u][a+i*o] == " ":
+                                                                pygame.draw.rect(janela , (128,128,128) , (((a+i*o) * 60) + 20, ((u) * 60) + 20 , 20 , 20))
+                                                            else:
+                                                                h = 1 
+                                                    except IndexError:
+                                                        continue
+                                        elif peças[u][a] == bb:
+                                            v = h = 0 
+                                            for o in[1,-1]:
+                                                for n in[1,-1]:
+                                                    v = h = 0 
+                                                    for i in range(1,8):
+                                                        try:
+                                                            if v == 0:    
+                                                                if peças[u-i*o][a-i*n] in[pp,rp,kp,tp,bp,cp]:
+                                                                    pygame.draw.rect(janela , (255,0,0) , (((a - i*n) * 60), ((u - i*o) * 60) , 60 , 60))
+                                                                    v = 1
+                                                                elif peças[u-i*o][a-i*n] == " ":
+                                                                    pygame.draw.rect(janela , (128,128,128) , (((a - i*n) * 60) + 20, ((u - i*o) * 60) + 20 , 20 , 20))
+                                                                else:
+                                                                    v = 1
+                                                            if h == 0:
+                                                                if peças[u-i*n][a+i*o] in[pp,rp,kp,tp,bp,cp]:
+                                                                    pygame.draw.rect(janela , (255,0,0) , (((a + i*o) * 60), ((u-i*n) * 60) , 60 , 60))
+                                                                    h = 1
+                                                                elif peças[u-i*n][a+i*o] == " ":
+                                                                    pygame.draw.rect(janela , (128,128,128) , (((a+i*o) * 60) + 20, ((u-i*n) * 60) + 20 , 20 , 20))
+                                                                else:
+                                                                    h = 1 
+                                                        except IndexError:
+                                                            continue
+                                        elif peças[u][a] == rb:
+                                            v = h = 0 
+                                            v2 = h2 = 0
+                                            for o in[1,-1]:
+                                                v2 = h2 = 0
+                                                for n in[1,-1]:
+                                                    v = h = 0 
+                                                    for i in range(1,8):
+                                                        try:
+                                                            if v == 0:    
+                                                                if peças[u-i*o][a-i*n] in[pp,rp,kp,tp,bp,cp]:
+                                                                    pygame.draw.rect(janela , (255,0,0) , (((a - i*n) * 60), ((u - i*o) * 60) , 60 , 60))
+                                                                    v = 1
+                                                                elif peças[u-i*o][a-i*n] == " ":
+                                                                    pygame.draw.rect(janela , (128,128,128) , (((a - i*n) * 60) + 20, ((u - i*o) * 60) + 20 , 20 , 20))
+                                                                else:
+                                                                    v = 1
+                                                            if h == 0:
+                                                                if peças[u-i*n][a+i*o] in[pp,rp,kp,tp,bp,cp]:
+                                                                    pygame.draw.rect(janela , (255,0,0) , (((a + i*o) * 60), ((u-i*n) * 60) , 60 , 60))
+                                                                    h = 1
+                                                                elif peças[u-i*n][a+i*o] == " ":
+                                                                    pygame.draw.rect(janela , (128,128,128) , (((a+i*o) * 60) + 20, ((u-i*n) * 60) + 20 , 20 , 20))
+                                                                else:
+                                                                    h = 1 
+                                                            if v2 == 0:    
+                                                                if peças[u-i*o][a] in[pp,rp,kp,tp,bp,cp]:
+                                                                    pygame.draw.rect(janela , (255,0,0) , (((a) * 60), ((u - i*o) * 60) , 60 , 60))
+                                                                    v2 = 1
+                                                                elif peças[u-i*o][a] == " ":
+                                                                    pygame.draw.rect(janela , (128,128,128) , (((a) * 60) + 20, ((u - i*o) * 60) + 20 , 20 , 20))
+                                                                else:
+                                                                    v2 = 1
+                                                            if h2 == 0:
+                                                                if peças[u][a+i*o] in[pp,rp,kp,tp,bp,cp]:
+                                                                    pygame.draw.rect(janela , (255,0,0) , (((a + i*o) * 60), ((u) * 60) , 60 , 60))
+                                                                    h2 = 1
+                                                                elif peças[u][a+i*o] == " ":
+                                                                    pygame.draw.rect(janela , (128,128,128) , (((a+i*o) * 60) + 20, ((u) * 60) + 20 , 20 , 20))
+                                                                else:
+                                                                    h2 = 1
+                                                        except IndexError:
+                                                            continue
                                     else:
                                         if peças[u][a] == pp:
                                             try:
                                                 if peças[u-1][a] == " ":
                                                     pygame.draw.rect(janela , (128,128,128) , ((a * 60) + 20 , ((u-1) * 60)+20 , 20 , 20))
                                                 if u == 6:    
-                                                    if peças[u-2][a] == " ":
+                                                    if peças[u-2][a] == " " and peças[u-1][a] == " ":
                                                         pygame.draw.rect(janela , (128,128,128) , ((a * 60) + 20 , ((u-2) * 60)+20 , 20 , 20))
                                                 if peças[u-1][a-1] in [pb,bb,cb,kb,rb,tb]:
                                                     pygame.draw.rect(janela , (255,0,0) , (((a - 1) * 60), ((u-1) * 60) , 60 , 60))
@@ -237,7 +298,56 @@ while True:
                                                         elif peças[u][a+w] == " ":
                                                             pygame.draw.rect(janela , (128,128,128) , (((a+w) * 60) + 20, ((u) * 60) + 20 , 20 , 20))
                                                     except IndexError:
-                                                        continue         
+                                                        continue
+                                        elif peças[u][a] == tp:
+                                            v = h = 0 
+                                            for o in[1,-1]:
+                                                v = h = 0 
+                                                for i in range(1,8):
+                                                    try:
+                                                        if v == 0:    
+                                                            if peças[u-i*o][a] in[pb,rb,kb,tb,bb,cb]:
+                                                                pygame.draw.rect(janela , (255,0,0) , (((a) * 60), ((u - i*o) * 60) , 60 , 60))
+                                                                v = 1
+                                                            elif peças[u-i*o][a] == " ":
+                                                                pygame.draw.rect(janela , (128,128,128) , (((a) * 60) + 20, ((u - i*o) * 60) + 20 , 20 , 20))
+                                                            else:
+                                                                v = 1
+                                                        if h == 0:
+                                                            if peças[u][a+i*o] in[pb,rb,kb,tb,bb,cb]:
+                                                                pygame.draw.rect(janela , (255,0,0) , (((a + i*o) * 60), ((u) * 60) , 60 , 60))
+                                                                h = 1
+                                                            elif peças[u][a+i*o] == " ":
+                                                                pygame.draw.rect(janela , (128,128,128) , (((a+i*o) * 60) + 20, ((u) * 60) + 20 , 20 , 20))
+                                                            else:
+                                                                h = 1 
+                                                    except IndexError:
+                                                        continue  
+                                        elif peças[u][a] == bp:
+                                            v = h = 0 
+                                            for o in[1,-1]:
+                                                for n in[1,-1]:
+                                                    v = h = 0 
+                                                    for i in range(1,8):
+                                                        try:
+                                                            if v == 0:    
+                                                                if peças[u-i*o][a-i*n] in[pb,rb,kb,tb,bb,cb]:
+                                                                    pygame.draw.rect(janela , (255,0,0) , (((a - i*n) * 60), ((u - i*o) * 60) , 60 , 60))
+                                                                    v = 1
+                                                                elif peças[u-i*o][a-i*n] == " ":
+                                                                    pygame.draw.rect(janela , (128,128,128) , (((a - i*n) * 60) + 20, ((u - i*o) * 60) + 20 , 20 , 20))
+                                                                else:
+                                                                    v = 1
+                                                            if h == 0:
+                                                                if peças[u-i*n][a+i*o] in[pb,rb,kb,tb,bb,cb]:
+                                                                    pygame.draw.rect(janela , (255,0,0) , (((a + i*o) * 60), ((u-i*n) * 60) , 60 , 60))
+                                                                    h = 1
+                                                                elif peças[u-i*n][a+i*o] == " ":
+                                                                    pygame.draw.rect(janela , (128,128,128) , (((a+i*o) * 60) + 20, ((u-i*n) * 60) + 20 , 20 , 20))
+                                                                else:
+                                                                    h = 1 
+                                                        except IndexError:
+                                                            continue    
 
                     else:
                         for x in range(8):
@@ -282,6 +392,14 @@ while True:
                                                                 k = 1
                                                             if (x * 60 , (y-2) * 60 , 60 , 60) == coordenada2 and peças[y-1][x] == " " and peças[y-2][x] == " ":
                                                                 peças[y-2][x] = pb
+                                                                peças[y][x] = " "
+                                                                k = 1
+                                                            elif ((x-1) * 60 , (y-1) * 60 , 60 , 60) == coordenada2 and peças[y-1][x-1] in[pp,rp,kp,tp,bp,cp]:
+                                                                peças[y-1][x-1] = pb
+                                                                peças[y][x] = " "
+                                                                k = 1
+                                                            elif ((x+1) * 60 , (y-1) * 60 , 60 , 60) == coordenada2 and peças[y-1][x+1] in[pp,rp,kp,tp,bp,cp]:
+                                                                peças[y-1][x+1] = pb
                                                                 peças[y][x] = " "
                                                                 k = 1
                                                         elif (x * 60 , (y-1) * 60 , 60 , 60) == coordenada2 and peças[y-1][x] == " ":
@@ -348,6 +466,62 @@ while True:
                                                                     peças[y][x+w] = kb
                                                                     peças[y][x] = " "
                                                                     k = 1
+                                                    elif peças[y][x] == bb:
+                                                        for i in range(8):
+                                                            for u in[1 , -1]:
+                                                                for z in[1 , -1]:
+                                                                    try:
+                                                                        if ((x+(i*u)) * 60, (y+(i*z)) * 60 , 60 , 60) == coordenada2 and peças[y+(i*z)][x+(i*u)] in[pp,rp,kp,tp,bp,cp, " "]:
+                                                                            a = peças[y+(i*z)][x+(i*u)]
+                                                                            peças[y+(i*z)][x+(i*u)] = bb
+                                                                            peças[y][x] = " "
+                                                                            k = 1
+                                                                            for r in range(i):
+                                                                                if peças[y+(r*z)][x+(r*u)] != " ":
+                                                                                    peças[y+(i*z)][x+(i*u)] = a
+                                                                                    peças[y][x] = bb
+                                                                                    k = 0
+                                                                    except IndexError:
+                                                                        continue
+                                                    elif peças[y][x] == rb:
+                                                        for i in range(8):
+                                                            for o in[1 , -1]:
+                                                                for u in[1 , -1]:
+                                                                    for z in[1 , -1]:
+                                                                        try:
+                                                                            if ((x-(i*o)) * 60,y * 60,60,60)  == coordenada2 and peças[y][x-(i*o)] in[pp,rp,kp,tp,bp,cp," "]:
+                                                                                a = peças[y][x-(i*o)]
+                                                                                peças[y][x-(i*o)] = rb
+                                                                                peças[y][x] = " "
+                                                                                k = 1
+                                                                                for u in range(i):
+                                                                                    if peças[y][x-(u*o)] != " ":
+                                                                                        peças[y][x-(i*o)] = a
+                                                                                        peças[y][x] = rb
+                                                                                        k = 0
+                                                                            elif (x * 60,(y-(i*o)) * 60,60,60)  == coordenada2 and peças[y-(i*o)][x] in[pp,rp,kp,tp,bp,cp," "]:
+                                                                                a = peças[y-(i*o)][x]
+                                                                                peças[y-(i*o)][x] = rb
+                                                                                peças[y][x] = " "
+                                                                                k = 1
+                                                                                for u in range(i):
+                                                                                    if peças[y-(u*o)][x] != " ":
+                                                                                        peças[y-(i*o)][x] = a
+                                                                                        peças[y][x] = rb
+                                                                                        k = 0
+                                                                            if ((x+(i*u)) * 60, (y+(i*z)) * 60 , 60 , 60) == coordenada2 and peças[y+(i*z)][x+(i*u)] in[pp,rp,kp,tp,bp,cp, " "]:
+                                                                                a = peças[y+(i*z)][x+(i*u)]
+                                                                                peças[y+(i*z)][x+(i*u)] = rb
+                                                                                peças[y][x] = " "
+                                                                                k = 1
+                                                                                for r in range(i):
+                                                                                    if peças[y+(r*z)][x+(r*u)] != " ":
+                                                                                        peças[y+(i*z)][x+(i*u)] = a
+                                                                                        peças[y][x] = rb
+                                                                                        k = 0
+                                                                        except IndexError:
+                                                                            continue
+
                                                 else:
                                                     if peças[y][x] == pp:
                                                         if y == 6:
@@ -357,6 +531,14 @@ while True:
                                                                 k = 1
                                                             if (x * 60 , (y-2) * 60 , 60 , 60) == coordenada2 and peças[y-1][x] == " " and peças[y-2][x] == " ":
                                                                 peças[y-2][x] = pp
+                                                                peças[y][x] = " "
+                                                                k = 1
+                                                            elif ((x-1) * 60 , (y-1) * 60 , 60 , 60) == coordenada2 and peças[y-1][x-1] in[pb,rb,kb,tb,bb,cb]:
+                                                                peças[y-1][x-1] = pp
+                                                                peças[y][x] = " "
+                                                                k = 1
+                                                            elif ((x+1) * 60 , (y-1) * 60 , 60 , 60) == coordenada2 and peças[y-1][x+1] in[pb,rb,kb,tb,bb,cb]:
+                                                                peças[y-1][x+1] = pp
                                                                 peças[y][x] = " "
                                                                 k = 1
                                                         elif (x * 60 , (y-1) * 60 , 60 , 60) == coordenada2 and peças[y-1][x] == " ":
@@ -423,7 +605,61 @@ while True:
                                                                     peças[y][x+w] = kp
                                                                     peças[y][x] = " "
                                                                     k = 1
-                                    
+                                                    elif peças[y][x] == bp:
+                                                        for i in range(8):
+                                                            for u in[1 , -1]:
+                                                                for z in[1 , -1]:
+                                                                    try:
+                                                                        if ((x+(i*u)) * 60, (y+(i*z)) * 60 , 60 , 60) == coordenada2 and peças[y+(i*z)][x+(i*u)] in[pb,rb,kb,tb,bb,cb, " "]:
+                                                                            a = peças[y+(i*z)][x+(i*u)]
+                                                                            peças[y+(i*z)][x+(i*u)] = bp
+                                                                            peças[y][x] = " "
+                                                                            k = 1
+                                                                            for r in range(i):
+                                                                                if peças[y+(r*z)][x+(r*u)] != " ":
+                                                                                    peças[y+(i*z)][x+(i*u)] = a
+                                                                                    peças[y][x] = bp
+                                                                                    k = 0
+                                                                    except IndexError:
+                                                                        continue
+                                                    elif peças[y][x] == rp:
+                                                        for i in range(8):
+                                                            for o in[1 , -1]:
+                                                                for u in[1 , -1]:
+                                                                    for z in[1 , -1]:
+                                                                        try:
+                                                                            if ((x-(i*o)) * 60,y * 60,60,60)  == coordenada2 and peças[y][x-(i*o)] in[pb,rb,kb,tb,bb,cb," "]:
+                                                                                a = peças[y][x-(i*o)]
+                                                                                peças[y][x-(i*o)] = rp
+                                                                                peças[y][x] = " "
+                                                                                k = 1
+                                                                                for u in range(i):
+                                                                                    if peças[y][x-(u*o)] != " ":
+                                                                                        peças[y][x-(i*o)] = a
+                                                                                        peças[y][x] = rp
+                                                                                        k = 0
+                                                                            elif (x * 60,(y-(i*o)) * 60,60,60)  == coordenada2 and peças[y-(i*o)][x] in[pb,rb,kb,tb,bb,cb," "]:
+                                                                                a = peças[y-(i*o)][x]
+                                                                                peças[y-(i*o)][x] = rp
+                                                                                peças[y][x] = " "
+                                                                                k = 1
+                                                                                for u in range(i):
+                                                                                    if peças[y-(u*o)][x] != " ":
+                                                                                        peças[y-(i*o)][x] = a
+                                                                                        peças[y][x] = rp
+                                                                                        k = 0
+                                                                            if ((x+(i*u)) * 60, (y+(i*z)) * 60 , 60 , 60) == coordenada2 and peças[y+(i*z)][x+(i*u)] in[pb,rb,kb,tb,bb,cb, " "]:
+                                                                                a = peças[y+(i*z)][x+(i*u)]
+                                                                                peças[y+(i*z)][x+(i*u)] = rp
+                                                                                peças[y][x] = " "
+                                                                                k = 1
+                                                                                for r in range(i):
+                                                                                    if peças[y+(r*z)][x+(r*u)] != " ":
+                                                                                        peças[y+(i*z)][x+(i*u)] = a
+                                                                                        peças[y][x] = rp
+                                                                                        k = 0
+                                                                        except IndexError:
+                                                                            continue
                                     p = 0
                                     pygame.time.delay(700)
                                     pt()                                                        
